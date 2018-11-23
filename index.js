@@ -31,16 +31,22 @@ fs.readFile('.json', 'utf8', function readFileCallback(err, data){
     json = JSON.stringify(obj); //convert it back to json
     fs.writeFile('myjsonfile.json', json, 'utf8', callback); // write it back
 }});
-fs.access(`./settings/${client.guilds.name}.json`, fs.F_OK, (err) => {
-	if(err){
-		console.error(err)
-		return
-	}
-});
+
 */
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-
+	client.guilds.forEach(guild => {
+		fs.access(`./settings/${guild.name}.json`, fs.F_OK, (err) => {
+			if(err){
+				let info = {
+					"name": `${guild.name}`
+				}
+				let data = JSON.stringify(info);
+				fs.writeFileSync(`./settings/${guild.name}.json`, data);
+				return
+			}
+		});
+	});
 });
 
 client.on('message', msg => {
