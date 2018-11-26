@@ -21,20 +21,26 @@ fs.readdir("./commands/", (err, files) => {
 		client.commands.set(props.help.name, props);
 	});
 });
-/*
-fs.readFile('.json', 'utf8', function readFileCallback(err, data){
-    if (err){
-        console.log(err);
-    } else {
-    obj = JSON.parse(data); //now it an object
-    obj.table.push({id: 2, square:3}); //add some data
-    json = JSON.stringify(obj); //convert it back to json
-    fs.writeFile('myjsonfile.json', json, 'utf8', callback); // write it back
-}});
 
-*/
+module.exports = {
+	readSettings: function(msg, name){
+		fs.readFile(`./settings/${name}.json`, 'utf8', function readFileCallback(err, data){
+		    if (err){
+		        console.log(err);
+				return msg.reply("Something went wrong, please contact bot owner MrMokka#0917 with errorcode '114115'");
+		    }
+		    let json = JSON.parse(data); //now it an object
+		    //obj.table.push({id: 2, square:3}); //add some data
+		    return json = JSON.stringify(obj); //convert it back to json
+		    //fs.writeFile(`/settings/${name}.json`, json, 'utf8', callback); // write it back
+		});
+	}
+};
+
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
+	client.user.setActivity("MrMokka creating a bot :D", {type: "WATCHING"});
 	client.guilds.forEach(guild => {
 		fs.access(`./settings/${guild.name}.json`, fs.F_OK, (err) => {
 			if(err){
