@@ -1,4 +1,4 @@
 @echo off
 
-nodemon index.js
+nodemon index.js --config nodemon.json
 pause

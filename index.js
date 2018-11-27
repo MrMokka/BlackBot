@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const botConfig = require("./botConfig.json");
 const fs = require("fs");
+const setup = require("./settings/setup.js");
 
 client.commands = new Discord.Collection();
 
@@ -22,33 +23,17 @@ fs.readdir("./commands/", (err, files) => {
 	});
 });
 
-module.exports = {
-	readSettings: function(msg, name){
-		fs.readFile(`./settings/${name}.json`, 'utf8', function readFileCallback(err, data){
-		    if (err){
-		        console.log(err);
-				return msg.reply("Something went wrong, please contact bot owner MrMokka#0917 with errorcode '114115'");
-		    }
-		    let json = JSON.parse(data); //now it an object
-		    //obj.table.push({id: 2, square:3}); //add some data
-		    return json = JSON.stringify(obj); //convert it back to json
-		    //fs.writeFile(`/settings/${name}.json`, json, 'utf8', callback); // write it back
-		});
-	}
-};
-
-
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 	client.user.setActivity("MrMokka creating a bot :D", {type: "WATCHING"});
 	client.guilds.forEach(guild => {
-		fs.access(`./settings/${guild.name}.json`, fs.F_OK, (err) => {
+		fs.access(`./settings/${guild.id}.json`, fs.F_OK, (err) => {
 			if(err){
 				let info = {
-					"name": `${guild.name}`
+					"setup": false
 				}
 				let data = JSON.stringify(info);
-				fs.writeFileSync(`./settings/${guild.name}.json`, data);
+				fs.writeFileSync(`./settings/${guild.id}.json`, data);
 				return
 			}
 		});
@@ -66,6 +51,13 @@ client.on('message', msg => {
 	const args = msgArray.slice(1);
 
 	if(!(cmd.slice(0, 1) === prefix)) return;
+
+	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
+	if(data.setup === false && cmd != "!setup"){ //ask to run setup if setup is not done, or server reset
+		return msg.reply("Setup is not complete, please run the setup command (!setup)");
+	}
+
+	setup.setup();
 
 	const cmdF = client.commands.get(cmd.slice(prefix.length));
 	if(cmdF) cmdF.run(client, msg, args);
