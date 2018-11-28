@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const botConfig = require("./botConfig.json");
 const fs = require("fs");
-const setup = require("./setup.js");
+const setup = require("./settings/setup.js");
 
 client.commands = new Discord.Collection();
 
