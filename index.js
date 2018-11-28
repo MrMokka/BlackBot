@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const botConfig = require("./botConfig.json");
 const fs = require("fs");
-const setup = require("./settings/setup.js");
+const setup = require("./setup.js");
 
 client.commands = new Discord.Collection();
 
@@ -40,7 +40,7 @@ client.on('ready', () => {
 	});
 });
 
-client.on('message', msg => {
+client.on('message', async (msg) => {
 
 	if(msg.author.bot) return;
 	if(msg.channel.type === "dm") return;
@@ -57,13 +57,38 @@ client.on('message', msg => {
 		return msg.reply("Setup is not complete, please run the setup command (!setup)");
 	}
 
-	setup.setup();
+	if(cmd == "!setup"){
+		setup.setup(msg);
+		return;
+	}
 
 	const cmdF = client.commands.get(cmd.slice(prefix.length));
 	if(cmdF) cmdF.run(client, msg, args);
 	const debugMsg = `${msg.author.tag} ran the command: '${msg.content}'`;
 	console.log(debugMsg);
 
+});
+
+client.on('messageDelete', async (msg) => {
+
+	const entry = await msg.guild.fetchAuditLogs({type: 'MESSAGE_DELETE'}).then(audit => audit.entries.first());
+	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
+
+	let user = "";
+
+	if (entry.extra.channel.id === msg.channel.id
+	&& (entry.target.id === msg.author.id)
+	&& (entry.createdTimestamp > (Date.now() - 5000))
+	&& (entry.extra.count >= 1)) {
+		user = entry.executor.username;
+	} else {
+		user = msg.author.username;
+	}
+
+	msg.guild.channels.get(data.loggChan).send(`A message was deleted in ${msg.channel.name}
+	Deleted by: ${user}
+	Written by: ${msg.author}
+	Message: ${msg}`);
 });
 
 client.on('error', console.error);

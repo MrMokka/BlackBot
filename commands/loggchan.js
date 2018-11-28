@@ -14,7 +14,7 @@ module.exports.run = async(client, msg, args) => {
 
 			if(msg.guild.me.permissionsIn(channel).has(2048)){ //SEND_MESSAGES
 				data.loggChan = channel.id;
-				fs.writeFile(`./settings/${msg.guild.name}.json`, JSON.stringify(data), function(err) {
+				fs.writeFile(`./settings/${msg.guild.id}.json`, JSON.stringify(data), function(err) {
 					if(err) return console.log(err);
 				});
 				return msg.guild.channels.get(data.loggChan).send("This is the new logging channel for this server.");;

@@ -1,0 +1,2 @@
+ - Spambot
+    !spam @user number
