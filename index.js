@@ -42,8 +42,7 @@ client.on('ready', () => {
 
 client.on('message', async (msg) => {
 
-	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id != 45678){
+	if(!sessionCheck()){
 		return;
 	}
 
@@ -101,3 +100,12 @@ client.on('error', console.error);
 
 const token = require("./token.json").token;
 client.login(token);
+
+
+function sessionCheck(){
+	const session = JSON.parse(fs.readFileSync(`./session.json`));
+	if(session.id == 41238){
+		return true;
+	}
+	return false;
+}
