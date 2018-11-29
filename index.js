@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const botConfig = require("./botConfig.json");
 const fs = require("fs");
-const setup = require("./setup.js");
+const setup = require("./settings/setup.js");
 
 client.commands = new Discord.Collection();
 
@@ -41,6 +41,11 @@ client.on('ready', () => {
 });
 
 client.on('message', async (msg) => {
+
+	const session = JSON.parse(fs.readFileSync(`./session.json`));
+	if(session.id != 45678){
+		return;
+	}
 
 	if(msg.author.bot) return;
 	if(msg.channel.type === "dm") return;
