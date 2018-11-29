@@ -2,7 +2,7 @@
     "ignore": [
         ".git",
         "node_modules/*",
-        "settings/*"
+        "settings/*.json"
     ],
     "verbose": true
 }
