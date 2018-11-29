@@ -42,6 +42,11 @@ client.on('ready', () => {
 
 client.on('message', async (msg) => {
 
+	const session = JSON.parse(fs.readFileSync(`./session.json`));
+	if(session.id != 45678){
+		return;
+	}
+
 	if(msg.author.bot) return;
 	if(msg.channel.type === "dm") return;
 
