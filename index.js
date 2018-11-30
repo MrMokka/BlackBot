@@ -17,7 +17,7 @@ fs.readdir("./commands/", (err, files) => {
 	}
 
 	jsFile.forEach((f, i) => {
-		let props = require(`./commands/${f}`);
+		const props = require(`./commands/${f}`);
 		console.log(`${f} loaded!`);
 		client.commands.set(props.help.name, props);
 	});
@@ -42,13 +42,10 @@ client.on('ready', () => {
 
 client.on('message', async (msg) => {
 
-	if(!sessionCheck()){
-		return;
-	}
-
 	if(msg.author.bot) return;
 	if(msg.channel.type === "dm") return;
-
+	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
+	
 	const prefix = botConfig.prefix;
 	const msgArray = msg.content.split(" ");
 	const cmd = msgArray[0];
@@ -56,7 +53,19 @@ client.on('message', async (msg) => {
 
 	if(!(cmd.slice(0, 1) === prefix)) return;
 
-	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
+	if(cmd == "!session" && msg.member.permissions.has(data.purgePerm)){
+		if(msg.member.user.tag === "MrMokka#0917"){
+			sessionSet(args[0]);
+			return msg.reply("Session number has been changed.");
+		}
+		return msg.reply("You do not have access to this command.");
+	}
+
+	if(!sessionCheck()){
+		return;
+	}
+
+
 	if(data.setup === false && cmd != "!setup"){ //ask to run setup if setup is not done, or server reset
 		return msg.reply("Setup is not complete, please run the setup command (!setup)");
 	}
@@ -104,8 +113,14 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id == 41238){
+	if(session.id == 1){
 		return true;
 	}
 	return false;
+}
+
+function sessionSet(number){
+	const session = JSON.parse(fs.readFileSync(`./session.json`));
+	session.id = number;
+	fs.writeFile(`./session.json`, JSON.stringify(session), function(err) { if(err) return console.log(err); });
 }
