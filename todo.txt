@@ -1,2 +1,7 @@
  - Spambot
     !spam @user number
+
+
+ - !lol
+
+ - 
