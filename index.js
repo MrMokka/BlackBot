@@ -45,7 +45,7 @@ client.on('message', async (msg) => {
 	if(msg.author.bot) return;
 	if(msg.channel.type === "dm") return;
 	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
-	
+
 	const prefix = botConfig.prefix;
 	const msgArray = msg.content.split(" ");
 	const cmd = msgArray[0];
@@ -55,6 +55,9 @@ client.on('message', async (msg) => {
 
 	if(cmd == "!session" && msg.member.permissions.has(data.purgePerm)){
 		if(msg.member.user.tag === "MrMokka#0917"){
+			if(isNaN(args[0])){
+				return msg.reply("A number is missing.");
+			}
 			sessionSet(args[0]);
 			return msg.reply("Session number has been changed.");
 		}
@@ -113,7 +116,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id == 1){
+	if(session.id == 3){
 		return true;
 	}
 	return false;
