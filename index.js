@@ -45,7 +45,7 @@ client.on('message', async (msg) => {
 	if(msg.author.bot) return;
 	if(msg.channel.type === "dm") return;
 	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
-	
+
 	const prefix = botConfig.prefix;
 	const msgArray = msg.content.split(" ");
 	const cmd = msgArray[0];
@@ -84,6 +84,10 @@ client.on('message', async (msg) => {
 
 client.on('messageDelete', async (msg) => {
 
+	if(!sessionCheck()){
+		return;
+	}
+
 	const entry = await msg.guild.fetchAuditLogs({type: 'MESSAGE_DELETE'}).then(audit => audit.entries.first());
 	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
 
@@ -113,7 +117,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id == 1){
+	if(session.id == 15){
 		return true;
 	}
 	return false;
