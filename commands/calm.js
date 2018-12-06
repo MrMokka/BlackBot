@@ -20,8 +20,7 @@ module.exports.run = async(client, msg, args) => {
         return msg.reply(`You can't just calm the universe, specify a user please.`);
     }
 
-    msg.channel.send("-");
-    msg.channel.bulkDelete(2);
+    //msg.delete();
 	msg.channel.send(replys[Math.floor(Math.random() * Math.floor(replys.length))]);
 }
 
