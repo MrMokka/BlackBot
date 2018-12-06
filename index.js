@@ -55,6 +55,9 @@ client.on('message', async (msg) => {
 
 	if(cmd == "!session" && msg.member.permissions.has(data.purgePerm)){
 		if(msg.member.user.tag === "MrMokka#0917"){
+			if(isNaN(args[0])){
+				return msg.reply("A number is missing.");
+			}
 			sessionSet(args[0]);
 			return msg.reply("Session number has been changed.");
 		}
@@ -117,7 +120,11 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
+<<<<<<< HEAD
 	if(session.id == 10){
+=======
+	if(session.id == 3){
+>>>>>>> f872959c97fb948d94adda0d4cfa4341c7e9ea03
 		return true;
 	}
 	return false;
