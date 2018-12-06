@@ -117,7 +117,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id == 15){
+	if(session.id == 10){
 		return true;
 	}
 	return false;
