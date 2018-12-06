@@ -16,6 +16,13 @@ module.exports.run = async(client, msg, args) => {
     msg.channel.bulkDelete(fetched)
         .catch(error => msg.reply(`Couldn't delete messages because of: ${error}`));
 
+    var chan = msg.guild.channels.get(data.loggChan);
+    if(chan == null){
+        return msg.reply("Logg channel not found.");
+    }
+
+    chan.send(`${deleteCount - 1} messages has been deleted by ${msg.author.username} in ${msg.channel} with !purge`);
+
 }
 
 module.exports.help = {

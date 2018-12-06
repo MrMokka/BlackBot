@@ -87,6 +87,8 @@ client.on('message', async (msg) => {
 
 client.on('messageDelete', async (msg) => {
 
+	if(!sessionCheck()) return;
+
 	const entry = await msg.guild.fetchAuditLogs({type: 'MESSAGE_DELETE'}).then(audit => audit.entries.first());
 	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
 
@@ -107,6 +109,7 @@ client.on('messageDelete', async (msg) => {
 	Message: ${msg}`);
 });
 
+//This fixes the problem that the bot crashes if the internet is gone or computer goes to sleep
 client.on('error', console.error);
 
 
@@ -116,7 +119,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id == 3){
+	if(session.id == 13){
 		return true;
 	}
 	return false;
