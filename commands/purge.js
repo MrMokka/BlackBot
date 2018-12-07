@@ -11,11 +11,11 @@ module.exports.run = async(client, msg, args) => {
     let target = args[1];
 
     if(target != null){
-        target =target.replace(/[\\<>@#&!]/g, "");
+        target = target.replace(/[\\<>@#&!]/g, "");
     }
 
     if(!deleteCount || deleteCount < 1 || deleteCount > 50)
-        return msg.reply("Please provide a number between 1 and 100 for the number of messages to delete");
+        return msg.reply("Please provide a number between 1 and 50 for the number of messages to delete");
 
     const fetched = await msg.channel.fetchMessages({limit: deleteCount});
 

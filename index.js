@@ -87,13 +87,7 @@ client.on('message', async (msg) => {
 
 client.on('messageDelete', async (msg) => {
 
-<<<<<<< HEAD
-	if(!sessionCheck()){
-		return;
-	}
-=======
 	if(!sessionCheck()) return;
->>>>>>> 0ee51bd7f22c351c80252406ab60c2f463a80753
 
 	const entry = await msg.guild.fetchAuditLogs({type: 'MESSAGE_DELETE'}).then(audit => audit.entries.first());
 	const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
@@ -125,15 +119,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-<<<<<<< HEAD
-<<<<<<< HEAD
 	if(session.id == 10){
-=======
-	if(session.id == 3){
->>>>>>> f872959c97fb948d94adda0d4cfa4341c7e9ea03
-=======
-	if(session.id == 13){
->>>>>>> 0ee51bd7f22c351c80252406ab60c2f463a80753
 		return true;
 	}
 	return false;
