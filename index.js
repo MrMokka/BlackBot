@@ -32,7 +32,7 @@ client.on('ready', () => {
 				let info = {
 					"setup": false
 				}
-				let data = JSON.stringify(info);
+				let data = JSON.stringify(info, null, 4);
 				fs.writeFileSync(`./settings/${guild.id}.json`, data);
 				return
 			}
@@ -119,7 +119,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id == 10){
+	if(session.id == 12){
 		return true;
 	}
 	return false;
@@ -128,5 +128,5 @@ function sessionCheck(){
 function sessionSet(number){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
 	session.id = number;
-	fs.writeFile(`./session.json`, JSON.stringify(session), function(err) { if(err) return console.log(err); });
+	fs.writeFile(`./session.json`, JSON.stringify(session, null, 4), function(err) { if(err) return console.log(err); });
 }

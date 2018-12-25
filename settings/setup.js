@@ -11,7 +11,7 @@ module.exports = {
 
         data.setup = true;
 
-        fs.writeFile(`./settings/${msg.guild.id}.json`, JSON.stringify(data), function(err) {
+        fs.writeFile(`./settings/${msg.guild.id}.json`, JSON.stringify(data, null, 4), function(err) {
             if(err) return console.log(err);
         });
         return msg.reply("Setup is complete!");

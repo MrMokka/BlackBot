@@ -5,8 +5,6 @@ module.exports.run = async(client, msg, args) => {
 
     const data = JSON.parse(fs.readFileSync(`./settings/${msg.guild.id}.json`));
 
-    if(!msg.member.permissions.has(data.purgePerm)) return msg.reply("You do not have permissions to use this command.");
-
     const deleteCount = parseInt(args[0], 10) + 1;
     let target = args[1];
 
@@ -14,7 +12,13 @@ module.exports.run = async(client, msg, args) => {
         target = target.replace(/[\\<>@#&!]/g, "");
     }
 
-    if(!deleteCount || deleteCount < 1 || deleteCount > 50)
+    if(!msg.member.permissions.has(data.purgePerm[0])) return msg.reply("You do not have permissions to use this command.");
+    if(!msg.member.permissions.has(data.purgePerm[1]) && deleteCount < 5) return msg.reply("You need more permissions to purge that many.");
+
+    if(!deleteCount || deleteCount < 2)
+        return msg.reply("Please provide a number between 1 and 50 for the number of messages to delete");
+
+    if(deleteCount > 50)
         return msg.reply("Please provide a number between 1 and 50 for the number of messages to delete");
 
     const fetched = await msg.channel.fetchMessages({limit: deleteCount});
@@ -39,8 +43,7 @@ module.exports.run = async(client, msg, args) => {
     });
 
     return;
-*/    msg.channel.bulkDelete(fetched)
-        .catch(error => msg.reply(`Couldn't delete messages because of: ${error}`));
+*/    msg.channel.bulkDelete(fetched).catch(error => msg.reply(`Couldn't delete messages because of: ${error}`));
 
     var chan = msg.guild.channels.get(data.loggChan);
     if(chan == null){
