@@ -25,7 +25,7 @@ fs.readdir("./commands/", (err, files) => {
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-	client.user.setActivity("MrMokka creating a bot :D", {type: "WATCHING"});
+	client.user.setActivity("MrMokka doing school work", {type: "WATCHING"});
 	client.guilds.forEach(guild => {
 		fs.access(`./settings/${guild.id}.json`, fs.F_OK, (err) => {
 			if(err){
@@ -119,7 +119,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-	if(session.id == 10){
+	if(session.id == 19){
 		return true;
 	}
 	return false;
