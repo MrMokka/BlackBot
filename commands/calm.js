@@ -21,7 +21,7 @@ module.exports.run = async(client, msg, args) => {
     }
 
     //msg.delete();
-	msg.channel.send(replys[Math.floor(Math.random() * Math.floor(replys.length))]);
+	msg.channel.send(replys[Math.floor(Math.random() * replys.length)]);
 }
 
 module.exports.help = {
