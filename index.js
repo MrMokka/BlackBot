@@ -119,11 +119,7 @@ client.login(token);
 
 function sessionCheck(){
 	const session = JSON.parse(fs.readFileSync(`./session.json`));
-<<<<<<< HEAD
-	if(session.id == 19){
-=======
 	if(session.id == 12){
->>>>>>> c756365aa183d168b6695b0ac6c3a52a9bc073a6
 		return true;
 	}
 	return false;
